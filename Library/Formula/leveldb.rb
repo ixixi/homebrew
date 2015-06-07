@@ -15,6 +15,11 @@ class Leveldb < Formula
   depends_on "snappy"
 
   def install
+      ENV.append "CXXFLAGS", "-stdlib=libstdc++"
+      ENV.append "CFLAGS", "-stdlib=libstdc++"
+      ENV.append "LDFLAGS", "-stdlib=libstdc++ -lstdc++"
+      # The following is necessary because libtool likes to strip LDFLAGS:
+      ENV["CXX"] = "/usr/bin/clang++ -stdlib=libstdc++"
     system "make"
     system "make", "leveldbutil"
 

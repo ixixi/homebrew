@@ -23,10 +23,11 @@ class UniversalPython3 < Requirement
 end
 
 class BoostPython < Formula
-  homepage "http://www.boost.org"
-  url "https://downloads.sourceforge.net/project/boost/boost/1.57.0/boost_1_57_0.tar.bz2"
-  sha1 "e151557ae47afd1b43dc3fac46f8b04a8fe51c12"
-  head "https://github.com/boostorg/boost.git"
+    homepage "http://www.boost.org"
+    url 'https://downloads.sourceforge.net/project/boost/boost/1.55.0/boost_1_55_0.tar.bz2'
+    sha1 'cef9a0cc7084b1d639e06cd3bc34e4251524c840'
+    head "https://github.com/boostorg/boost.git" 
+    revision 2
 
   option :universal
   option :cxx11
@@ -48,6 +49,11 @@ class BoostPython < Formula
   end
 
   def install
+    ENV.append "CXXFLAGS", "-stdlib=libstdc++"
+    ENV.append "CFLAGS", "-stdlib=libstdc++"
+    ENV.append "LDFLAGS", "-stdlib=libstdc++ -lstdc++"
+    # The following is necessary because libtool likes to strip LDFLAGS:
+    ENV["CXX"] = "/usr/bin/clang++ -stdlib=libstdc++"
     ENV.universal_binary if build.universal?
 
     # "layout" should be synchronized with boost

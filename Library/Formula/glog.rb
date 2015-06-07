@@ -24,6 +24,11 @@ class Glog < Formula
   end
 
   def install
+ENV.append "CXXFLAGS", "-stdlib=libstdc++"
+      ENV.append "CFLAGS", "-stdlib=libstdc++"
+      ENV.append "LDFLAGS", "-stdlib=libstdc++ -lstdc++"
+      # The following is necessary because libtool likes to strip LDFLAGS:
+      ENV["CXX"] = "/usr/bin/clang++ -stdlib=libstdc++"
     system "./configure", "--disable-dependency-tracking",
                           "--prefix=#{prefix}"
     system "make install"

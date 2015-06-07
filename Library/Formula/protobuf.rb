@@ -61,6 +61,11 @@ class Protobuf < Formula
   end
 
   def install
+ENV.append "CXXFLAGS", "-stdlib=libstdc++"
+      ENV.append "CFLAGS", "-stdlib=libstdc++"
+      ENV.append "LDFLAGS", "-stdlib=libstdc++ -lstdc++"
+      # The following is necessary because libtool likes to strip LDFLAGS:
+      ENV["CXX"] = "/usr/bin/clang++ -stdlib=libstdc++"
     # Don't build in debug mode. See:
     # https://github.com/Homebrew/homebrew/issues/9279
     # http://code.google.com/p/protobuf/source/browse/trunk/configure.ac#61
